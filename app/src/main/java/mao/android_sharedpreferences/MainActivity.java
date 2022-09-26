@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         saveButton = findViewById(R.id.Button_save);
         loadButton = findViewById(R.id.Button_load);
 
+        idEditText = findViewById(R.id.EditText_id);
         nameEditText = findViewById(R.id.EditText_name);
         ageEditText = findViewById(R.id.EditText_age);
         weightEditText = findViewById(R.id.EditText_weight);
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-
+                save();
             }
         });
 
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("异常")
-                    .setMessage("出现异常，请检查输入\n异常内容为：" + e.getMessage())
+                    .setMessage("出现异常，请检查输入\n异常内容为\n：" + e.getMessage())
                     .setPositiveButton("确定", null)
                     .create()
                     .show();
@@ -128,6 +129,15 @@ public class MainActivity extends AppCompatActivity
         nameEditText.setText(name);
         ageEditText.setText(String.valueOf(age));
         weightEditText.setText(String.valueOf(weight));
+
+
+        String str = "学号：" + id + "\n姓名：" + name + "\n年龄：" + age + "\n体重：" + weight;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("读取到的内容")
+                .setMessage(str)
+                .setPositiveButton("确定", null)
+                .create()
+                .show();
     }
 
     @Override
