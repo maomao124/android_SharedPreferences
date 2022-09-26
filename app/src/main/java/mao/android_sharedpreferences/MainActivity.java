@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * Class(类名): MainActivity
@@ -52,6 +54,12 @@ public class MainActivity extends AppCompatActivity
      */
     private EditText weightEditText;
 
+
+    /**
+     * 标签
+     */
+    private static final String TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -83,6 +91,8 @@ public class MainActivity extends AppCompatActivity
                 load();
             }
         });
+
+        //load();
     }
 
 
@@ -93,10 +103,27 @@ public class MainActivity extends AppCompatActivity
     {
         try
         {
+            long id = Long.parseLong(idEditText.getText().toString());
+            String name = nameEditText.getText().toString();
+            int age = Integer.parseInt(ageEditText.getText().toString());
+            float weight = Float.parseFloat(weightEditText.getText().toString());
 
+            SharedPreferences.Editor editor = getSharedPreferences("text", MODE_PRIVATE).edit();
+
+            editor.putLong("id", id);
+            editor.putString("name", name);
+            editor.putInt("age", age);
+            editor.putFloat("weight", weight);
+
+            editor.commit();
+            //异步
+            //editor.apply();
+
+            Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
         }
         catch (Exception e)
         {
+            Log.e(TAG, "save: ", e);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("异常")
                     .setMessage("出现异常，请检查输入\n异常内容为\n：" + e.getMessage())
@@ -106,12 +133,6 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        SharedPreferences.Editor editor = getSharedPreferences("text", MODE_PRIVATE).edit();
-
-
-        editor.commit();
-        //异步
-        //editor.apply();
     }
 
     /**
